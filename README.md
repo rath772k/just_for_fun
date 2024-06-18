@@ -1,0 +1,1 @@
+- Initial goal is to write a transformer model purely using pytorch.
