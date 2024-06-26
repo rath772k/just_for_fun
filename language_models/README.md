@@ -1,4 +1,4 @@
-- Implemented a small "decoder" only transformer using pure pytorch.
+- Implemented a small "decoder" only transformer using pure pytorch inspired by the awesome [nanoGPT](https://github.com/karpathy/nanoGPT/tree/master)
 - Data is taken from [here](https://gist.github.com/wey-gu/75d49362d011a0f0354d39e396404ba2)
 
 ## TODO
