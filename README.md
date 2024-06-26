@@ -1,1 +1,1 @@
-- Initial goal is to write a transformer model purely using pytorch.
+- Collection of some popular tech built from first principles.
