@@ -42,21 +42,34 @@ class CausalSelfAttention(nn.Module):
         norm_scores = f.softmax(masked_scores, dim=-1) # (batch_size, context_length, context_length)
         final_values = norm_scores @ v # (batch_size, context_length, attn_size)
         return final_values
+    
+class MLP(nn.Module):
+    def __init__(self, embed_size):
+        super().__init__()
+        self.fcn = nn.Linear(embed_size, embed_size * 4)
+        self.activation = nn.ReLU()
+        self.proj = nn.Linear(4 * embed_size, embed_size)
+    
+    def forward(self, embeddings):
+        x = self.fcn(embeddings)
+        x = self.activation(x)
+        x = self.proj(x)
+        return x
+
         
 class AttentionBlock(nn.Module):
     def __init__(self, embed_size, num_heads, context_length):
         super().__init__()
         attn_size = embed_size // num_heads
         self.attn_heads = nn.ModuleList((CausalSelfAttention(embed_size, attn_size, context_length)) for _ in range(num_heads))
-        self.fcn = nn.Linear(embed_size, embed_size)
-        self.layer_norm_1 = nn.LayerNorm(embed_size, bias=False)
-        self.layer_norm_2 = nn.LayerNorm(embed_size, bias=False)
+        self.mlp = MLP(embed_size)
+        self.layer_norm_1 = nn.LayerNorm(embed_size)
+        self.layer_norm_2 = nn.LayerNorm(embed_size)
         self.num_heads = num_heads
 
     def forward(self, embeddings):
-        x = embeddings + torch.cat([self.attn_heads[i](embeddings) for i in range(self.num_heads)], dim=-1)
-        x = x + self.fcn(self.layer_norm_1(x))
-        x = self.layer_norm_2(x)
+        x = self.layer_norm_1(embeddings + torch.cat([self.attn_heads[i](embeddings) for i in range(self.num_heads)], dim=-1))
+        x = self.layer_norm_2(x + self.mlp(x))
         return x
     
 
