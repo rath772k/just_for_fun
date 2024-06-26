@@ -1,1 +1,1 @@
-- Collection of some popular tech built from first principles.
+- Best way to understand something is to implement them!!
