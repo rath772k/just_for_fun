@@ -49,6 +49,7 @@ class BPETokenizer(BaseTokenizer):
     @staticmethod
     def merge(tokens, pair, idx):
         new_tokens = []
+        i = 0
         while i < len(tokens):
             if i + 1 < len(tokens) and tokens[i] == pair[0] and tokens[i+1] == pair[1]:
                 new_tokens.append(idx)
