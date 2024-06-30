@@ -1,5 +1,6 @@
 from tokenizers.base_tokenizer import BaseTokenizer
 
+
 class CharacterTokenizer(BaseTokenizer):
     def __init__(self, char_to_token, token_to_char, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -12,7 +13,7 @@ class CharacterTokenizer(BaseTokenizer):
 
     def decode(self, tokens):
         return "".join(self.token_to_char[token] for token in tokens)
-    
+
     @classmethod
     def build_tokenizer(cls, filepath):
         with open(filepath, "r") as f:
