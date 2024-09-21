@@ -3,3 +3,4 @@ data/**
 **/*.pt
 **/*.pkl
 **/playground.ipynb
+**/.ipynb_checkpoints/**
